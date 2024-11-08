@@ -1,0 +1,7 @@
+services:
+  app:
+    build: .
+    env_file: .env
+    container_name: test-deploy
+    ports:
+      - ${PORT}:${PORT}
