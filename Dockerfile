@@ -1,10 +1,10 @@
 FROM python:3.12.7-alpine AS dependencies
 WORKDIR /tmp
-COPY pyproject.toml poetry.lock ./
 RUN apk update && \
     pip install --upgrade pip && \
-    pip install poetry && \
-    poetry export -f requirements.txt --output requirements.txt --without-urls --without-hashes
+    pip install poetry
+COPY pyproject.toml poetry.lock ./
+RUN poetry export -f requirements.txt --output requirements.txt --without-urls --without-hashes
 
 FROM python:3.12.7-slim
 WORKDIR /app
