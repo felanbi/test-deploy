@@ -13,16 +13,16 @@ RUN poetry export -f requirements.txt --output requirements.txt --without-urls -
 FROM python:3.12.7-alpine
 
 RUN apk update &&\
-    groupadd -r flask && \
-    useradd --no-log-init -r -g flask flask
+    addgroup -S flask &&\
+    adduser -S flask -G flask
+
+COPY --chown=flask:flask entrypoint.sh .
+RUN chmod +x entrypoint.sh 
 
 USER flask
 
 COPY --from=dependencies /tmp/requirements.txt . 
 RUN pip install --upgrade pip && pip install -r requirements.txt
-
-COPY entrypoint.sh .
-RUN chmod +x entrypoint.sh
 
 WORKDIR /app
 COPY . .

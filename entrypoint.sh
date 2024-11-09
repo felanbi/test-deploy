@@ -1,2 +1,2 @@
 #!/bin/sh
-exec gunicorn app:app 
+exec python3 -m gunicorn app:app
