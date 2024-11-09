@@ -7,24 +7,17 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build:
-
+  pipeline:
     runs-on: ubuntu-latest
+    env: 
+      COMMIT_HASH: $(git rev-parse --short HEAD)
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
       - name: Build the Docker image
-        run: |
-          COMMIT_HASH=$(git rev-parse --short HEAD)
-          docker build . --file Dockerfile --tag test-deploy:$COMMIT_HASH
+        run: docker build . --file Dockerfile --tag test-deploy:$COMMIT_HASH
 
-  test:
-    runs-on: ubuntu-latest
-    needs: build 
-
-    steps:
-      - uses: actions/checkout@v4
-      - name: Run tests in Docker container
-        run: |
-          COMMIT_HASH=$(git rev-parse --short HEAD)
-          docker run --rm test-deploy:$COMMIT_HASH pytest
+      - name: Run tests
+        run: docker run -i test-deploy:$COMMIT_HASH pytest
