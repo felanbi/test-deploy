@@ -9,5 +9,6 @@ def client():
 
 def test_hello_world(client: FlaskClient) -> str:
     response = client.get("/")
+    
     assert response.status_code == 200
-    assert response.json == "error"
+    assert response.data == b"Hello, World!"
