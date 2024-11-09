@@ -9,15 +9,17 @@ on:
 jobs:
   pipeline:
     runs-on: ubuntu-latest
-    env: 
-      COMMIT_HASH: $(git rev-parse --short HEAD)
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
+      - name: Get commit hash
+        id: get_commit_hash
+        run: echo "COMMIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag test-deploy:$COMMIT_HASH
+        run: docker build . --file Dockerfile --tag test-deploy:${{ env.COMMIT_HASH }}
 
       - name: Run tests
-        run: docker run -i test-deploy:$COMMIT_HASH pytest
+        run: docker run -i test-deploy:${{ env.COMMIT_HASH }} pytest
