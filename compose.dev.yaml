@@ -2,4 +2,4 @@ services:
   app:
     volumes:
       - ./:/app/
-    entrypoint: sh -c "python3 -m gunicorn app:app --reload"
+    entrypoint: sh -c "gunicorn app:app --reload"
