@@ -22,4 +22,4 @@ jobs:
         run: docker build . --file Dockerfile --tag test-deploy:${{ env.COMMIT_HASH }}
 
       - name: Run tests
-        run: docker run -i test-deploy:${{ env.COMMIT_HASH }} pytest
+        run: docker run -i --entrypoint pytest test-deploy:${{ env.COMMIT_HASH }}
