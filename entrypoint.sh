@@ -1,2 +1,2 @@
 #!/bin/sh
-exec gunicorn app:app 
+exec gunicorn app:app
