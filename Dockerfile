@@ -15,9 +15,9 @@ RUN addgroup -S flask && adduser -S flask -G flask
 COPY entrypoint.sh .
 RUN chmod +x entrypoint.sh 
 
-WORKDIR /app
 USER flask
 ENV PATH="$PATH:/home/flask/.local/bin"
+WORKDIR /app
 
 COPY --from=dependencies --chown=flask:flask /tmp/requirements.txt . 
 RUN pip install --upgrade pip && pip install -r requirements.txt
